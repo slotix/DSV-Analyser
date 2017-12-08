@@ -10,6 +10,7 @@ DSV_Analyser::DSV_Analyser(const char* _filepath, const char _delimiter, const c
         eof(false), buffer(0), delimiter(_delimiter), filepath(strdup(_filepath)), dsv_file(nullptr), decimalMark(_decimalMark) {}
 DSV_Analyser::~DSV_Analyser() {
     if (dsv_file != nullptr) fclose(dsv_file);
+    delete filepath;
 };
 
 // PUBLIC METHODS
@@ -37,7 +38,6 @@ int DSV_Analyser::Next() {
 // returns DSV_TEXT_TYPE
 int DSV_Analyser::getNextFieldType() {
     bool first_byte = true;
-    int buffer = 0;
     while( true ) {
         if (buffer==EOF) throw DSV_TEXT_TYPE;
         buffer = fgetc(dsv_file);
