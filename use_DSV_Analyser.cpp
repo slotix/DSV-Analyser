@@ -31,7 +31,7 @@ int main() {
         } else if(obj.Columns[i].Type & DSV_TYPES::DOUBLE_TYPE) {
             cout << "Double";
         } else if(obj.Columns[i].Type & DSV_TYPES::INTEGER_TYPE) {
-            cout << "Integer";
+            cout << "Number";
         } else {
             cout << "Undefined";
         }

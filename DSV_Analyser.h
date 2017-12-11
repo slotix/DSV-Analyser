@@ -44,9 +44,10 @@ private:
 
     int Next();
     int getNextFieldType();
-    int getNumberType();
+    int getNumber();
     int getMantissa();
     void ReadHeader();
+    int getEnclosed();
 public:
     std::vector<DSV_FieldInfo> Columns;
     DSV_Analyser(const char* _filepath, char _delimiter, char _decimalMark = '.');

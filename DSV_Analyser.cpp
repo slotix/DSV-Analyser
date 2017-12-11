@@ -86,10 +86,11 @@ int DSV_Analyser::getNextFieldType() {
         if (buffer==EOF) throw int(DSV_TYPES::TEXT_TYPE);
         buffer = fgetc(dsv_file);
         //if (buffer=='\r') buffer=' ';
+        if (buffer==34) return getEnclosed();
         if (buffer=='\n') return DSV_TYPES::TEXT_TYPE;
         if (buffer==delimiter) break;
         if (buffer >= ASCII_LOW_NUMBER && buffer <= ASCII_HIGH_NUMBER && first_byte) {
-            return getNumberType();
+            return getNumber();
         }
         first_byte = false;
         ++currentFieldLength;
@@ -99,13 +100,13 @@ int DSV_Analyser::getNextFieldType() {
 
 // detects INTEGER type the field
 // if NOT returns DSV_TYPES::TEXT_TYPE
-int DSV_Analyser::getNumberType() {
+int DSV_Analyser::getNumber() {
     ++currentFieldLength;
     int result = DSV_TYPES::INTEGER_TYPE;
     while(true) {
         if (buffer==EOF) throw int(DSV_TYPES::INTEGER_TYPE);
         buffer = fgetc(dsv_file);
-        if (buffer=='\r') buffer=' ';
+        //if (buffer=='\r') buffer=' ';
         if (buffer=='\n') return DSV_TYPES::INTEGER_TYPE;
         if (buffer==delimiter) break;
         if (buffer==decimalMark) {
@@ -125,7 +126,7 @@ int DSV_Analyser::getMantissa() {
     while(true) {
         if (buffer == EOF) throw int(DSV_TYPES::DOUBLE_TYPE);
         buffer = fgetc(dsv_file);
-        if (buffer=='\r') buffer=' ';
+        //if (buffer=='\r') buffer=' ';
         if (buffer=='\n') return DSV_TYPES::DOUBLE_TYPE;
         if (buffer==delimiter) break;
         if (buffer < ASCII_LOW_NUMBER || buffer > ASCII_HIGH_NUMBER) result = DSV_TYPES::TEXT_TYPE;
@@ -134,6 +135,21 @@ int DSV_Analyser::getMantissa() {
     return result;
 }
 
+int DSV_Analyser::getEnclosed() {
+    bool enclosed = true;
+    ++currentFieldLength;
+    while(true) {
+        if (buffer==EOF) throw int(DSV_TYPES::TEXT_TYPE );
+        buffer = fgetc(dsv_file);
+        if (!enclosed) {
+            //if (buffer=='\r') buffer=' ';
+            if (buffer==delimiter || buffer=='\n') break;
+        }
+        if (buffer==34) enclosed = !enclosed;
+        ++currentFieldLength;
+    }
+    return DSV_TYPES::TEXT_TYPE;
+}
 
 
 
