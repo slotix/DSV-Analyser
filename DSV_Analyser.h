@@ -9,16 +9,9 @@
 #include <string>
 #include <vector>
 
-// FIELD TYPES OF DSV
-#define DSV_UNDEFINED_TYPE  0x00
-#define DSV_TEXT_TYPE       0x01
-#define DSV_INTEGER_TYPE    0x02
-#define DSV_DOUBLE_TYPE     0x04
-
 // ASCII codes of 0 and 9
 #define ASCII_LOW_NUMBER  48
 #define ASCII_HIGH_NUMBER 57
-
 
 struct DSV_FieldInfo {
     std::string   Title;
@@ -26,7 +19,13 @@ struct DSV_FieldInfo {
     int           Type;
 };
 
-
+// FIELD TYPES OF DSV
+enum DSV_TYPES {
+    UNDEFINED_TYPE  = 0x00,
+    TEXT_TYPE       = 0x01,
+    INTEGER_TYPE    = 0x02,
+    DOUBLE_TYPE     = 0x04
+};
 
 class DSV_Analyser {
 private:
@@ -53,6 +52,7 @@ public:
     DSV_Analyser(const char* _filepath, char _delimiter, char _decimalMark = '.');
     ~DSV_Analyser();
     void Analyse(bool _hasHeader);
+
 };
 
 

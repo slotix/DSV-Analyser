@@ -59,7 +59,7 @@ void DSV_Analyser::ReadHeader() {
     getline(file, headers_line);
     std::istringstream dl(headers_line);
     while (getline(dl, str_buffer,  delimiter)){
-        DSV_FieldInfo info = { hasHeader ? str_buffer : "", 0, DSV_UNDEFINED_TYPE};
+        DSV_FieldInfo info = { hasHeader ? str_buffer : "", 0, DSV_TYPES::UNDEFINED_TYPE};
         Columns.push_back(info);
     }
     totalColumns = Columns.size();
@@ -79,14 +79,14 @@ int DSV_Analyser::Next() {
     }
 }
 
-// returns DSV_TEXT_TYPE
+// returns DSV_TYPES::TEXT_TYPE
 int DSV_Analyser::getNextFieldType() {
     bool first_byte = true;
     while( true ) {
-        if (buffer==EOF) throw DSV_TEXT_TYPE;
+        if (buffer==EOF) throw int(DSV_TYPES::TEXT_TYPE);
         buffer = fgetc(dsv_file);
         //if (buffer=='\r') buffer=' ';
-        if (buffer=='\n') return DSV_TEXT_TYPE;
+        if (buffer=='\n') return DSV_TYPES::TEXT_TYPE;
         if (buffer==delimiter) break;
         if (buffer >= ASCII_LOW_NUMBER && buffer <= ASCII_HIGH_NUMBER && first_byte) {
             return getNumberType();
@@ -94,41 +94,41 @@ int DSV_Analyser::getNextFieldType() {
         first_byte = false;
         ++currentFieldLength;
     }
-    return DSV_TEXT_TYPE;
+    return DSV_TYPES::TEXT_TYPE;
 }
 
 // detects INTEGER type the field
-// if NOT returns DSV_TEXT_TYPE
+// if NOT returns DSV_TYPES::TEXT_TYPE
 int DSV_Analyser::getNumberType() {
     ++currentFieldLength;
-    int result = DSV_INTEGER_TYPE;
+    int result = DSV_TYPES::INTEGER_TYPE;
     while(true) {
-        if (buffer==EOF) throw DSV_INTEGER_TYPE;
+        if (buffer==EOF) throw int(DSV_TYPES::INTEGER_TYPE);
         buffer = fgetc(dsv_file);
         if (buffer=='\r') buffer=' ';
-        if (buffer=='\n') return DSV_INTEGER_TYPE;
+        if (buffer=='\n') return DSV_TYPES::INTEGER_TYPE;
         if (buffer==delimiter) break;
         if (buffer==decimalMark) {
             return getMantissa();
         }
-        if (buffer < ASCII_LOW_NUMBER || buffer > ASCII_HIGH_NUMBER) result = DSV_TEXT_TYPE;
+        if (buffer < ASCII_LOW_NUMBER || buffer > ASCII_HIGH_NUMBER) result = DSV_TYPES::TEXT_TYPE;
         ++currentFieldLength;
     }
     return result;
 }
 
 // detects DOUBLE type of the field
-// if NOT returns DSV_TEXT_TYPE
+// if NOT returns DSV_TYPES::TEXT_TYPE
 int DSV_Analyser::getMantissa() {
     ++currentFieldLength;
-    int result = DSV_DOUBLE_TYPE;
+    int result = DSV_TYPES::DOUBLE_TYPE;
     while(true) {
-        if (buffer == EOF) throw DSV_DOUBLE_TYPE;
+        if (buffer == EOF) throw int(DSV_TYPES::DOUBLE_TYPE);
         buffer = fgetc(dsv_file);
         if (buffer=='\r') buffer=' ';
-        if (buffer=='\n') return DSV_DOUBLE_TYPE;
+        if (buffer=='\n') return DSV_TYPES::DOUBLE_TYPE;
         if (buffer==delimiter) break;
-        if (buffer < ASCII_LOW_NUMBER || buffer > ASCII_HIGH_NUMBER) result = DSV_TEXT_TYPE;
+        if (buffer < ASCII_LOW_NUMBER || buffer > ASCII_HIGH_NUMBER) result = DSV_TYPES::TEXT_TYPE;
         ++currentFieldLength;
     }
     return result;

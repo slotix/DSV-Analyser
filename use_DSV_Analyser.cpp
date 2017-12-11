@@ -26,11 +26,11 @@ int main() {
     for (int i=0; i < obj.Columns.size(); i++) {
         cout << setw(10) <<  right << i << "  " << setw(60) << left << setfill('.') << obj.Columns[i].Title
              << setw(10) << right << obj.Columns[i].Length << setw(10) << setfill(' ');
-        if (obj.Columns[i].Type & 1) {
+        if (obj.Columns[i].Type & DSV_TYPES::TEXT_TYPE) {
             cout << "Text";
-        } else if(obj.Columns[i].Type & 2) {
+        } else if(obj.Columns[i].Type & DSV_TYPES::INTEGER_TYPE) {
             cout << "Number";
-        } else if(obj.Columns[i].Type & 4) {
+        } else if(obj.Columns[i].Type & DSV_TYPES::DOUBLE_TYPE) {
             cout << "Double";
         } else {
             cout << "Undefined";
