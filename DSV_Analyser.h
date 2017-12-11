@@ -20,7 +20,7 @@ struct DSV_FieldInfo {
 };
 
 // FIELD TYPES OF DSV
-enum DSV_TYPES {
+enum DSV_TYPES : int {
     UNDEFINED_TYPE  = 0x00,
     TEXT_TYPE       = 0x01,
     INTEGER_TYPE    = 0x02,

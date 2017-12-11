@@ -28,10 +28,10 @@ int main() {
              << setw(10) << right << obj.Columns[i].Length << setw(10) << setfill(' ');
         if (obj.Columns[i].Type & DSV_TYPES::TEXT_TYPE) {
             cout << "Text";
-        } else if(obj.Columns[i].Type & DSV_TYPES::INTEGER_TYPE) {
-            cout << "Number";
         } else if(obj.Columns[i].Type & DSV_TYPES::DOUBLE_TYPE) {
             cout << "Double";
+        } else if(obj.Columns[i].Type & DSV_TYPES::INTEGER_TYPE) {
+            cout << "Integer";
         } else {
             cout << "Undefined";
         }
