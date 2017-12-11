@@ -26,7 +26,7 @@ DSV_Analyser::DSV_Analyser(const char* _filepath, const char _delimiter, const c
 DSV_Analyser::~DSV_Analyser() {
     if (dsv_file != nullptr) fclose(dsv_file);
     std::vector<DSV_FieldInfo>().swap(Columns);
-    delete filepath;
+    delete[] filepath;
 };
 
 

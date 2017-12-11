@@ -2,12 +2,12 @@
 // Created by Sn0w1eo on 07.12.2017.
 //
 
+#ifndef DSV_ANALYSER_DSV_ANALYSER_H
+#define DSV_ANALYSER_DSV_ANALYSER_H
+
 #include <cstdio>
 #include <string>
 #include <vector>
-
-#ifndef DSV_ANALYSER_DSV_ANALYSER_H
-#define DSV_ANALYSER_DSV_ANALYSER_H
 
 // FIELD TYPES OF DSV
 #define DSV_UNDEFINED_TYPE  0x00

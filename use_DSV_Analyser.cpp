@@ -18,11 +18,14 @@ int main() {
     clock_t finish = clock();
     double elapsed_time = double(finish-start)/1000;
     cout << "TIME ELAPSED IN SEC: " << elapsed_time << endl;
-
     cout << "STATISTICS:" << endl;
-    cout << "Total Columns:" << obj.Columns.size();
+    cout << "Total Columns:" << obj.Columns.size() << endl << endl;
+    cout << setw(10) << right << "#" << "  " << setw(60) << left << "TITLE"
+         << setw(10) << right << "LENGTH" << setw(10) << "TYPE" << endl;
+    cout << setw(92) << setfill('-') << '-' << setfill(' ') << endl;
     for (int i=0; i < obj.Columns.size(); i++) {
-        cout << "TITLE: " << obj.Columns[i].Title << setw(10) << "LENGTH: " << obj.Columns[i].Length << "TYPE: ";
+        cout << setw(10) <<  right << i << "  " << setw(60) << left << setfill('.') << obj.Columns[i].Title
+             << setw(10) << right << obj.Columns[i].Length << setw(10) << setfill(' ');
         if (obj.Columns[i].Type & 1) {
             cout << "Text";
         } else if(obj.Columns[i].Type & 2) {
