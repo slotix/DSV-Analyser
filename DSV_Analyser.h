@@ -42,6 +42,11 @@ private:
     int  currentColumn;
     unsigned int currentFieldLength;
 
+    long long int fileSize;
+    long long int currentFilePosition;
+
+    void moveToNewLine();
+
     int Next();
     int getNextFieldType();
     int getNumber();
@@ -52,6 +57,8 @@ public:
     std::vector<DSV_FieldInfo> Columns;
     DSV_Analyser(const char* _filepath, char _delimiter, char _decimalMark = '.');
     ~DSV_Analyser();
+    long long int GetCurrentPosition() const;
+    long long int GetFileSize() const;
     void Analyse(bool _hasHeader);
 
 };
